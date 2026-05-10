@@ -11,9 +11,5 @@ class Employees:
 
 emp = Employees("Leena", 30, "Data Science", "Analytics")
 print(emp.name)
-print(emp.age)
 emp.talk_about_yourself()
-
-
-###################
-# create another class called dog
+print(emp.salary)
