@@ -6,3 +6,4 @@
     * Rock-Paper-Scissors
     * Treasure Island
     * Hard and Easy Password Generator 
+    * Calculator
