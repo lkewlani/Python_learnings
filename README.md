@@ -1,2 +1,1 @@
-# hangman_python
-Hangman Game Demo with Python 
+Documenting my Python Leanings 
