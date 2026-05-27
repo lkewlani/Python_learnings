@@ -37,6 +37,10 @@ if choice_1 == 'left':
             print("You enter a room of beasts. Game Over.")
         else:
             print("You chose a door that doesn't exist. Game Over.")
+    elif choice_2 == 'swim':
+        print("You get attacked by an angry trout. Game Over.")
+    else:
+        print("You have entered an invalid option. Game Over.")
     
 else:
     choice_2 = input("You have entered another dimension. To continue pickup your phone and call your friend. Type 'call' to call your friend. \n").lower()
