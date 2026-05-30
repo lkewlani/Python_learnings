@@ -7,3 +7,5 @@
     * Treasure Island
     * Hard and Easy Password Generator 
     * Calculator
+    * Prime numbers check
+    * Blackjack Game 
