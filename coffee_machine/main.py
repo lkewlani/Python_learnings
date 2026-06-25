@@ -41,7 +41,7 @@ while continue_running:
     if not continue_running:
         break   
     else:
-        if user_input == "report" or user_input not in ["latte", "espresso", "cappuccino"]:
+        if user_input == "report" or user_input not in ["latte", "cappuccino", "espresso"]:
             user_input = input("What would you like? (espresso/latte/cappuccino): ").lower()
             continue_running = user_selection(user_input)
         
