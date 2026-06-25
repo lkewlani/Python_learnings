@@ -51,6 +51,7 @@ fifties = 50
 tens = 10       
 fives = 5
 
+# Lets start the coffee machine and accept user input for the drink selection
 while continue_running:
     # Accept user Input 
     user_input = input("\nWhat would you like? (espresso/latte/cappuccino/filter coffee): ").lower()
