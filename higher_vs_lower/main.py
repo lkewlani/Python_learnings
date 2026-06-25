@@ -27,7 +27,7 @@ account_b = random.choice(data)
 score = 0
 continue_game = True
 
-# Make the game repeatable
+# Make the game repeatable until the user fails to guess correctly
 while continue_game:
     # Re-generate the account B if both the random choices are picked same
     account_a = account_b
