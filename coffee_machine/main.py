@@ -46,10 +46,7 @@ result = True
 profit = 0
 
 # Denominations 
-hundreds = 100
-fifties = 50
-tens = 10       
-fives = 5
+denominations = {"hundreds": 100.00, "fifties": 50.00, "tens": 10.00, "fives": 5.00}
 
 # Lets start the coffee machine and accept user input for the drink selection
 while continue_running:
@@ -78,18 +75,14 @@ while continue_running:
 
     # Validate the amount of money inserted by the user and process the transaction
     if result == True and continue_running == True:
-        """Accept and validate the amount of money inserted by the user"""
-        user_input_hundreds = float(validate_amount(hundreds) * 100.00)
-        user_input_fifties = float(validate_amount(fifties) * 50.00)
-        user_input_tens = float(validate_amount(tens) * 10.00)
-        user_input_fives = float(validate_amount(fives) * 5.00)
-        
-        # Calcuate the total amount inserted by the user and check if it is enough to make the selected drink
-        calulated_amount = 0 
-        calulated_amount = user_input_hundreds + user_input_fifties + user_input_tens + user_input_fives
-        print(calulated_amount)
+        """Accept, validate and calculate the amount of money inserted by the user"""
+        calulated_amount = 0
+        for denomination, value in denominations.items():
+            user_input_amount = validate_amount(denomination) * value
+            calulated_amount += user_input_amount
+            print(calulated_amount)
 
-        # Process the transaction and provide change if necessary
+        # Process the transaction if the user has inserted enough money for the selected drink
         if calulated_amount >= menu[user_input]["cost"]:
             change = calulated_amount - menu[user_input]["cost"]
             profit += menu[user_input]["cost"]
