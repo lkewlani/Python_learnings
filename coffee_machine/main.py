@@ -4,20 +4,20 @@ from inventory import menu, resources
 # Function-Definitions--------------------------------------------------------------------------------------------------
 def user_selection(selected_drink):
     if selected_drink in menu:
-        print(f"You have selected {selected_drink}.")
+        print(f"\nYou have selected {selected_drink}.")
         return True
     elif selected_drink == "off":
-        print("Turning off the coffee machine.")
+        print("\nTurning off the coffee machine.")
         return False
     elif selected_drink == "report":
-        print("Current resource values:")
+        print("\nCurrent resource values:")
         print(f"Water: {resources['water']}ml")
         print(f"Milk: {resources['milk']}ml")
         print(f"Coffee: {resources['coffee']}g")
         print(f"Money: Rs.{profit}")
         return True 
     else:
-        print("Invalid selection. Please choose from espresso, latte, or cappuccino.")
+        print("\nInvalid selection. Please choose from espresso, latte, cappuccino, or filter coffee.")
         return True
 
 def check_resources(drink):
@@ -25,47 +25,81 @@ def check_resources(drink):
     ingredients = menu[drink]["ingredients"]
     for item in ingredients:
         if ingredients[item] > resources[item]:
-            print(f"Sorry, there is not enough {item}.")
+            print(f"\nSorry, there is not enough {item}, Cannot make the drink due to insufficient resources!!!!")
             return False
     return True
 
+def validate_amount(user_amount):
+    """Validate the user input for amount of money inserted."""
+    try:
+        user_amount_inp = float(input(f"\nPlease insert the amount. How many {user_amount}?: ")) 
+        return float(user_amount_inp)
+    except ValueError:
+        print("Invalid input. Please enter a valid numerical value.")
+        user_amount_inp = float(input(f"\nPlease insert the amount. How many {user_amount}?: ")) 
+        return float(user_amount_inp)
 # ----------------------------------------------------------------------------------------------------------------------
 
 # Main-Logic------------------------------------------------------------------------------------------------------------
 continue_running = True
+result = True
 profit = 0
 
+# Denominations 
+hundreds = 100
+fifties = 50
+tens = 10       
+fives = 5
+
 while continue_running:
-    user_input = input("What would you like? (espresso/latte/cappuccino): ").lower()
+    # Accept user Input 
+    user_input = input("\nWhat would you like? (espresso/latte/cappuccino/filter coffee): ").lower()
+
+    # Validate the User Input
     continue_running = user_selection(user_input)
+    
+    # Give the user 3 chances to select a valid drink or report
     if not continue_running:
         break   
     else:
-        if user_input == "report" or user_input not in ["latte", "cappuccino", "espresso"]:
-            user_input = input("What would you like? (espresso/latte/cappuccino): ").lower()
+        number_of_turns = 0
+        while user_input == "report" or user_input not in menu:
+            user_input = input("\nWhat would you like? (espresso/latte/cappuccino/filter coffee): ").lower()
             continue_running = user_selection(user_input)
-        
-        result = check_resources(user_input)
-        
-        if result:
-            user_input_hundreds = float(input("Please insert the amount. How many hundreds?: ")) * 100
-            user_input_fifties = float(input("How many fifties?: ")) * 50
-            user_input_tens = float(input("How many tens?: ")) * 10
-            user_input_fives = float(input("How many fives?: ")) * 5
-
-            calulated_amount = user_input_hundreds + user_input_fifties + user_input_tens + user_input_fives
-            if calulated_amount >= menu[user_input]["cost"]:
-                change = calulated_amount - menu[user_input]["cost"]
-                profit += menu[user_input]["cost"]
-                print(f"Here is Rs.{change} in change.")
-                print(f"Here is your {user_input}. Enjoy!")
-                # Deduct the required resources from the available resources
-                for item in menu[user_input]["ingredients"]:
-                    resources[item] -= menu[user_input]["ingredients"][item]
-            else:
-                print("Sorry that's not enough money. Money refunded.")
+            number_of_turns += 1
+            if number_of_turns == 3:
+                print("You have exceeded your maximum 3 number of turns. Please try again later.")
+                continue_running = False
                 break
-        else:
-            print("Cannot make the drink due to insufficient resources.")
-            break
 
+    # Check if there are enough resources to make the selected drink
+    result = check_resources(user_input)
+
+    # Validate the amount of money inserted by the user and process the transaction
+    if result == True and continue_running == True:
+        """Accept and validate the amount of money inserted by the user"""
+        user_input_hundreds = float(validate_amount(hundreds) * 100.00)
+        user_input_fifties = float(validate_amount(fifties) * 50.00)
+        user_input_tens = float(validate_amount(tens) * 10.00)
+        user_input_fives = float(validate_amount(fives) * 5.00)
+        
+        # Calcuate the total amount inserted by the user and check if it is enough to make the selected drink
+        calulated_amount = 0 
+        calulated_amount = user_input_hundreds + user_input_fifties + user_input_tens + user_input_fives
+        print(calulated_amount)
+
+        # Process the transaction and provide change if necessary
+        if calulated_amount >= menu[user_input]["cost"]:
+            change = calulated_amount - menu[user_input]["cost"]
+            profit += menu[user_input]["cost"]
+            print(f"\nHere is Rs.{change} in change.")
+            print(f"Here is your {user_input}. Enjoy!")
+            
+            # Deduct the required resources from the available resources
+            for item in menu[user_input]["ingredients"]:
+                resources[item] -= menu[user_input]["ingredients"][item]
+        else:
+            print("\nSorry that's not enough money. Money refunded.")
+            break
+    else:
+        break

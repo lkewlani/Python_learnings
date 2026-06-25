@@ -21,12 +21,20 @@ menu = {
             "coffee": 24,
         },
         "cost": 300,
+    },
+    "filter coffee": {
+        "ingredients": {
+            "water": 150,
+            "milk": 100,
+            "coffee": 24,
+        },
+        "cost": 100,
     }
 }
 
 resources = {
     "water": 600,
     "milk": 300,
-    "coffee": 100,
+    "coffee": 30,
 }
 
